@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Survey Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+    $(document).ready(function (){    
+        var socket = io();
+        person =prompt("Please enter your name:"); 
+        $('#user').html(person);         
+        $('button').click(function()
+        {
+            info =
+            {
+                name:person,
+                msg:$('#msg').val(),
+            };        
+            socket.emit('message',info);
+        }); 
+        socket.on('message',function(data){
+            console.log(data);
+            $('.messages').append(`<p> ${data.username}: ${data.message} </p>`);
+        });                                        
+    });
+    </script>
+    <style>
+        .messages{
+            box-sizing: border-box;
+            width: 100%;
+            height: 500px;
+            padding: 10px;  
+            border: 3px solid black;
+        }
+        .content{
+            width: 50%;
+        }       
+        
+    </style>
+
+</head>
+<body>
+    <div class="container"> 
+        <h2>Welcome <span id="user"></span> to Conversation Board</h2>
+        <div class="content">
+            <div class="messages"></div><br>
+            <input type="text" id="msg" class="form-control"><br>
+            <button class="btn btn-success">Send</button>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>
