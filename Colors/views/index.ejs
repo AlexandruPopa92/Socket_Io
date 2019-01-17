@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Survey Form</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+    $(document).ready(function (){
+            var socket = io();
+            socket.on('greeting', function (data) { //4
+                console.log(data.msg)});             
+                $("button").click(function(){
+                    console.log("Click")
+                    var color=$(this).val();
+                    console.log(color);
+                socket.emit('color',{send:color});                 
+                });
+                socket.on('return',function(data){
+                $('body').css("background-color",data.return);
+                }) 
+                
+              
+        })
+    </script>
+
+</head>
+<body>
+    <div class="container" style="text-align:center; padding:20px;"> 
+        <button id="green" value="green" name="green" class="btn btn-outline-success btn-lg">Green</button>
+        <button id="blue" value="blue" name="blue" class="btn btn-outline-primary btn-lg">Blue</button>
+        <button id="red" value="red" name="red" class="btn btn-outline-danger btn-lg">Red</button>
+
+    </div>
+
+</div>
+</body>
+</html>
